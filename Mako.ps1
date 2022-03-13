@@ -44,8 +44,20 @@ if($mode -eq "1") {
     foreach($pair in $path_Hash) {
         $hashTable.add($pair.Split("|")[0], $pair.Split("|")[1])
     }
-    $hashTable
+ 
     #monitor existing files with saved starting point
+    while($true) {
+        Start-Sleep -Seconds 5 
+        Write-Host "Testing files..."
+        $target = Get-ChildItem -Path . 
+        foreach($file in $target) {
+            $hash = Calculate-File-Hash $file.FullName
+            if($null -eq $hashTable[$hash.Path]) {
+                #new file created
+                Write-Host "[+] $($hash.Path) has been created" -ForegroundColor Green
+            }
+        }
+    }
 } else {
     #display appropriate response
     Write-Host "[x] Mode does not exist. Please enter a valid mode." -ForegroundColor Magenta
