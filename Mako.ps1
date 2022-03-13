@@ -51,9 +51,9 @@ if($mode -eq "1") {
         Write-Host "Testing files..."
         $target = Get-ChildItem -Path . 
         foreach($file in $target) {
-            $hash = Calculate-File-Hash $file.FullName
+            $hash = generateHash $file.FullName
             if($null -eq $hashTable[$hash.Path]) {
-                #new file created
+                #new file created notif
                 Write-Host "[+] $($hash.Path) has been created" -ForegroundColor Green
             }
         }
